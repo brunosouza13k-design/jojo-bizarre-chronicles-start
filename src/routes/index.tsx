@@ -152,11 +152,17 @@ function MainMenu() {
           <header className="jojo-rise text-center" style={{ animationDelay: "0.05s" }}>
             <p className="jojo-eyebrow">◆ Um RPG de Destino Bizarro ◆</p>
             <h1 className="jojo-title mt-4">
-              <span className="jojo-title-gold" data-text="JOJO'S BIZARRE">
-                JOJO'S BIZARRE
+              <span className="jojo-title-line">
+                <span className="jojo-title-outline" aria-hidden="true">
+                  JOJO'S BIZARRE
+                </span>
+                <span className="jojo-title-fill">JOJO'S BIZARRE</span>
               </span>
-              <span className="jojo-title-gold jojo-title-gold-xl" data-text="ADVENTURE">
-                ADVENTURE
+              <span className="jojo-title-line jojo-title-line-xl">
+                <span className="jojo-title-outline" aria-hidden="true">
+                  ADVENTURE
+                </span>
+                <span className="jojo-title-fill">ADVENTURE</span>
               </span>
             </h1>
             <div className="jojo-subtitle">
