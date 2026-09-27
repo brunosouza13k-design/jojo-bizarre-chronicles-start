@@ -29,7 +29,7 @@ const GLYPHS = ["ゴ", "ゴ", "ゴ", "ド", "ォ", "メ", "MENACING", "ゴ", "�
 /** Deterministic pseudo-random so SSR and client render identical floats. */
 function rand(seed: number) {
   const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
-  return x - Math.floor(x);
+  return Number((x - Math.floor(x)).toFixed(3));
 }
 
 function playClick() {
