@@ -76,12 +76,12 @@ function MainMenu() {
         const long = glyph === "MENACING";
         return {
           glyph,
-          left: 3 + rand(i + 1) * 90,
-          size: long ? 0.8 + rand(i + 40) * 0.5 : 1.3 + rand(i + 40) * 1.8,
-          dur: 13 + rand(i + 80) * 11,
+          left: rand(i + 1) * 90 + 3,
+          size: long ? rand(i + 40) * 0.5 + 0.8 : rand(i + 40) * 1.8 + 1.3,
+          dur: rand(i + 80) * 11 + 13,
           delay: -rand(i + 120) * 20,
           drift: (rand(i + 160) - 0.5) * 10,
-          peak: 0.12 + rand(i + 200) * 0.16,
+          peak: rand(i + 200) * 0.16 + 0.12,
           gold: rand(i + 240) > 0.45,
         };
       }),
