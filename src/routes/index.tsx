@@ -22,7 +22,23 @@ export const Route = createFileRoute("/")({
   component: MainMenu,
 });
 
-type Phase = "menu" | "fading" | "loading";
+type Phase = "menu" | "fading" | "loading" | "parts" | "intro";
+
+type JojoPart = {
+  id: number;
+  title: string;
+  protagonist: string;
+  unlocked: boolean;
+};
+
+const PARTS: JojoPart[] = [
+  { id: 1, title: "Phantom Blood", protagonist: "Jonathan Joestar", unlocked: true },
+  { id: 2, title: "Battle Tendency", protagonist: "Joseph Joestar", unlocked: false },
+  { id: 3, title: "Stardust Crusaders", protagonist: "Jotaro Kujo", unlocked: false },
+  { id: 4, title: "Diamond is Unbreakable", protagonist: "Josuke Higashikata", unlocked: false },
+  { id: 5, title: "Golden Wind", protagonist: "Giorno Giovanna", unlocked: false },
+  { id: 6, title: "Stone Ocean", protagonist: "Jolyne Cujoh", unlocked: false },
+];
 
 const GLYPHS = ["ゴ", "ゴ", "ゴ", "ド", "ォ", "メ", "MENACING", "ゴ", "ド"];
 
