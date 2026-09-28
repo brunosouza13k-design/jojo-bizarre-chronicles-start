@@ -787,3 +787,29 @@
   color: var(--menacing);
   text-shadow: 0 0 12px oklch(0.62 0.19 300 / 0.5);
 }
+
+/* ===== Mapa Parte 1 ===== */
+.pb-game { background: var(--void); width: 100%; touch-action: none; user-select: none; }
+.pb-hud { display: flex; align-items: center; gap: .5rem; width: 100%; max-width: 32rem; padding: .6rem .75rem; }
+.pb-objective { flex: 1; display: flex; flex-direction: column; font-family: "Cinzel", serif; font-size: .78rem; color: var(--gold-bright); line-height: 1.3; text-align: center; }
+.pb-part { font-size: .62rem; letter-spacing: .15em; color: var(--gold); opacity: .8; }
+.pb-done { color: var(--gold); text-decoration: line-through; }
+.pb-icon { width: 2.2rem; height: 2.2rem; border-radius: 999px; border: 1.5px solid var(--gold); color: var(--gold-bright); background: color-mix(in oklab, var(--void) 70%, transparent); }
+.pb-stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; justify-content: center; align-items: center; padding: 0 .5rem; }
+.pb-canvas { height: 100%; max-width: 100%; aspect-ratio: 176 / 272; object-fit: contain; image-rendering: pixelated; border: 3px solid var(--gold-deep); border-radius: 6px; box-shadow: 0 0 30px color-mix(in oklab, var(--aura) 50%, transparent); }
+.pb-dialog { position: absolute; left: 50%; bottom: .75rem; transform: translateX(-50%); width: min(94%, 26rem); text-align: left; padding: .8rem 1rem 1.2rem; background: color-mix(in oklab, var(--void) 92%, transparent); border: 3px double var(--gold); border-radius: 8px; color: var(--foreground); font-family: "Cinzel", serif; font-size: .9rem; line-height: 1.45; display: flex; flex-direction: column; gap: .35rem; }
+.pb-dialog-name { color: var(--gold-bright); font-weight: 700; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+.pb-dialog-next { position: absolute; right: .7rem; bottom: .3rem; color: var(--gold); animation: pb-bounce .7s infinite alternate; font-size: .7rem; }
+@keyframes pb-bounce { to { transform: translateY(3px); } }
+.pb-solved { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; background: color-mix(in oklab, var(--void) 85%, transparent); padding: 1.5rem; }
+.pb-solved-title { font-family: "Cinzel Decorative", serif; font-size: 1.8rem; font-weight: 900; color: var(--gold-bright); text-shadow: 2px 2px 0 #000; }
+.pb-solved-sub { font-family: "Cinzel", serif; color: var(--foreground); }
+.pb-tbc { font-family: "Cinzel", serif; font-weight: 700; color: var(--gold); border: 2px solid var(--gold); padding: .2rem .8rem; transform: skewX(-10deg); }
+.pb-controls { width: 100%; max-width: 32rem; display: flex; justify-content: space-between; align-items: center; padding: .9rem 1.5rem calc(1rem + env(safe-area-inset-bottom)); }
+.pb-stick { width: 7.5rem; height: 7.5rem; border-radius: 999px; border: 2px solid var(--gold-deep); background: radial-gradient(circle, color-mix(in oklab, var(--aura) 35%, transparent), color-mix(in oklab, var(--void) 80%, transparent)); display: flex; align-items: center; justify-content: center; touch-action: none; }
+.pb-knob { width: 3.2rem; height: 3.2rem; border-radius: 999px; background: radial-gradient(circle at 35% 35%, var(--gold-bright), var(--gold-deep)); border: 2px solid #000; pointer-events: none; }
+.pb-interact { width: 7rem; height: 7rem; border-radius: 999px; border: 3px solid var(--gold-deep); font-family: "Cinzel", serif; font-weight: 700; font-size: .8rem; color: var(--gold); opacity: .5; background: color-mix(in oklab, var(--void) 80%, transparent); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .2rem; }
+.pb-interact:not(:disabled) { opacity: 1; }
+.pb-interact small { font-size: .6rem; color: var(--foreground); font-weight: 400; }
+.pb-interact-on { color: var(--void); background: radial-gradient(circle, var(--gold-bright), var(--gold)); animation: pb-blink .8s ease-in-out infinite; }
+@keyframes pb-blink { 50% { box-shadow: 0 0 28px var(--gold-bright); transform: scale(1.06); } }
