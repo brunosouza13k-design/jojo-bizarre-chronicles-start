@@ -153,7 +153,7 @@ function drawRoom(c: CanvasRenderingContext2D, t: number) {
     const books = ["#7a1c1c", "#1f3d5c", "#2d5a2d", "#8a6a2a", "#4a2358", "#9a8a6a"];
     for (let sy = y + 3; sy < y + h - 4; sy += 7) {
       for (let bx = x + 3, i = 0; bx < x + w - 4; bx += 3, i++)
-        px(c, books[(i * 7 + sy) % books.length], bx, sy, 2, 5);
+        px(c, books[(i * 7 + sy) % books.length]!, bx, sy, 2, 5);
       px(c, "#2a160b", x + 2, sy + 5, w - 4, 1);
     }
   };
@@ -179,7 +179,7 @@ function drawRoom(c: CanvasRenderingContext2D, t: number) {
   c.fill();
 
   // mesa
-  const tb = THINGS[4].rect;
+  const tb = THINGS[4]!.rect;
   px(c, "#1e0f07", tb.x, tb.y + 3, tb.w, tb.h);
   px(c, "#6a3a1a", tb.x, tb.y, tb.w, tb.h - 2);
   px(c, "#e8dcc0", tb.x + 4, tb.y + 4, tb.w - 8, tb.h - 12);
@@ -195,13 +195,13 @@ function drawRoom(c: CanvasRenderingContext2D, t: number) {
   }
 
   // sofá
-  const sf = THINGS[5].rect;
+  const sf = THINGS[5]!.rect;
   px(c, "#3d0a10", sf.x, sf.y - 2, sf.w, sf.h + 4);
   px(c, "#7a1520", sf.x + 3, sf.y + 1, sf.w - 6, sf.h - 3);
   px(c, "#c9a24a", sf.x, sf.y + sf.h, sf.w, 1);
 
   // relógio
-  const ck = THINGS[9].rect;
+  const ck = THINGS[9]!.rect;
   px(c, "#1e0f07", ck.x + 1, ck.y - 6, ck.w - 2, ck.h + 6);
   px(c, "#5a3218", ck.x + 3, ck.y - 4, ck.w - 6, ck.h + 2);
   px(c, "#e8dcc0", ck.x + 4, ck.y - 2, 8, 8);
@@ -211,7 +211,7 @@ function drawRoom(c: CanvasRenderingContext2D, t: number) {
   px(c, "#c9a24a", ck.x + 5, ck.y + 20, 6, 4);
 
   // armadura
-  const ar = THINGS[6].rect;
+  const ar = THINGS[6]!.rect;
   px(c, "#5c6068", ar.x + 3, ar.y - 4, 10, 8);
   px(c, "#1a1a1a", ar.x + 5, ar.y - 1, 6, 1);
   px(c, "#8a8f98", ar.x + 2, ar.y + 4, 12, 12);
@@ -219,7 +219,7 @@ function drawRoom(c: CanvasRenderingContext2D, t: number) {
   px(c, "#5c6068", ar.x + 9, ar.y + 16, 3, 7);
 
   // escrivaninha
-  const dk = THINGS[7].rect;
+  const dk = THINGS[7]!.rect;
   px(c, "#1e0f07", dk.x, dk.y + 2, dk.w, dk.h);
   px(c, "#5a3218", dk.x, dk.y, dk.w, dk.h - 2);
   px(c, "#e8dcc0", dk.x + 5, dk.y + 4, 8, 6);
@@ -227,14 +227,14 @@ function drawRoom(c: CanvasRenderingContext2D, t: number) {
   px(c, "#c9a24a", dk.x + 8, dk.y + dk.h - 6, 16, 1);
 
   // piano
-  const pn = THINGS[8].rect;
+  const pn = THINGS[8]!.rect;
   px(c, "#050505", pn.x, pn.y, pn.w, pn.h);
   px(c, "#1c1c22", pn.x + 2, pn.y + 2, pn.w - 4, pn.h - 10);
   px(c, "#f0f0f0", pn.x + 2, pn.y + pn.h - 7, pn.w - 4, 5);
   for (let x = pn.x + 3; x < pn.x + pn.w - 3; x += 3) px(c, "#050505", x, pn.y + pn.h - 7, 1, 3);
 
   // plantas / vasos
-  for (const [vx, vy] of [[1.2, 14.6], [9.2, 14.6], [1.2, 3.2], [9.2, 3.2]]) {
+  for (const [vx, vy] of [[1.2, 14.6], [9.2, 14.6], [1.2, 3.2], [9.2, 3.2]] as [number, number][]) {
     px(c, "#8a5a2a", vx * T + 3, vy * T + 6, 8, 6);
     px(c, "#2d5a2d", vx * T + 1, vy * T - 2, 12, 9);
     px(c, "#3f7a3f", vx * T + 4, vy * T, 5, 4);
@@ -297,7 +297,7 @@ function startBgm(): () => void {
       const o = ctx.createOscillator();
       const g = ctx.createGain();
       o.type = "triangle";
-      o.frequency.value = seq[i % seq.length];
+      o.frequency.value = seq[i % seq.length]!;
       g.gain.setValueAtTime(0.0001, next);
       g.gain.exponentialRampToValueAtTime(0.5, next + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, next + beat * 1.8);
@@ -349,7 +349,7 @@ function blip() {
 export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const input = useRef({ x: 0, y: 0 });
-  const keys = useRef<Record<string, boolean>>({});
+  const keys = useRef<{ [k: string]: boolean | undefined }>({});
   const player = useRef({ x: 5 * T + 2, y: 14 * T, dir: 1, step: 0 });
   const nearRef = useRef<Thing | null>(null);
   const dialogRef = useRef(false);
@@ -383,10 +383,10 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
       let ix = input.current.x;
       let iy = input.current.y;
       const k = keys.current;
-      if (k.ArrowLeft || k.a) ix = -1;
-      if (k.ArrowRight || k.d) ix = 1;
-      if (k.ArrowUp || k.w) iy = -1;
-      if (k.ArrowDown || k.s) iy = 1;
+      if (k["ArrowLeft"] || k["a"]) ix = -1;
+      if (k["ArrowRight"] || k["d"]) ix = 1;
+      if (k["ArrowUp"] || k["w"]) iy = -1;
+      if (k["ArrowDown"] || k["s"]) iy = 1;
       if (dialogRef.current) ix = iy = 0;
       const mag = Math.hypot(ix, iy);
       if (mag > 0.15) {
