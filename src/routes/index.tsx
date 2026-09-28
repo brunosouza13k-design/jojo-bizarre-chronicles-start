@@ -118,6 +118,25 @@ function MainMenu() {
     fadeTimer.current = window.setTimeout(() => setPhase("loading"), 850);
   };
 
+  const openParts = () => {
+    playClick();
+    setHint(null);
+    setPhase("parts");
+  };
+
+  const openIntro = () => {
+    playClick();
+    setPhase("intro");
+  };
+
+  const backToMenu = () => {
+    playClick();
+    setPhase("menu");
+  };
+
+  const lockedHint = (id: number) =>
+    showHint(`A PARTE ${id} está selada. Resolva o mistério da Parte ${id - 1} para libertá-la.`);
+
   return (
     <main className="jojo-scene relative min-h-screen overflow-hidden">
       {/* Onomatopeias flutuantes (Gogogo / Menacing) */}
