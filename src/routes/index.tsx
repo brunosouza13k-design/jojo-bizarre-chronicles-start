@@ -178,6 +178,85 @@ function MainMenu() {
             ゴ ゴ ゴ ゴ
           </p>
         </section>
+      ) : phase === "parts" ? (
+        <section className="jojo-fade-in relative z-10 flex min-h-screen flex-col items-center gap-6 px-4 py-10 sm:px-6">
+          <header className="jojo-rise text-center">
+            <p className="jojo-eyebrow">◆ Escolha o seu Destino ◆</p>
+            <h2 className="jojo-parts-title mt-3">Selecionar Parte</h2>
+            <p className="jojo-parts-sub">
+              As Partes despertam em sequência — resolva um mistério para libertar o próximo.
+            </p>
+          </header>
+
+          <div className="jojo-rise grid w-full max-w-3xl grid-cols-1 gap-4 sm:grid-cols-2" style={{ animationDelay: "0.15s" }}>
+            {PARTS.map((part) =>
+              part.unlocked ? (
+                <button key={part.id} type="button" className="jojo-part" onClick={openIntro}>
+                  <span className="jojo-part-num">Parte {part.id}</span>
+                  <span className="jojo-part-name">{part.title}</span>
+                  <span className="jojo-part-hero">
+                    <span className="jojo-part-label">Protagonista</span>
+                    {part.protagonist}
+                  </span>
+                  <span className="jojo-part-cta">Iniciar a história ▸</span>
+                </button>
+              ) : (
+                <button
+                  key={part.id}
+                  type="button"
+                  className="jojo-part jojo-part-locked"
+                  onClick={() => lockedHint(part.id)}
+                  aria-disabled="true"
+                >
+                  <span className="jojo-part-lock" aria-hidden="true">
+                    🔒
+                  </span>
+                  <span className="jojo-part-num">Parte {part.id}</span>
+                  <span className="jojo-part-name">{part.title}</span>
+                  <span className="jojo-part-hero">
+                    <span className="jojo-part-label">Protagonista</span>
+                    {part.protagonist}
+                  </span>
+                  <span className="jojo-part-sealed">Selada pelo Destino</span>
+                </button>
+              ),
+            )}
+          </div>
+
+          <p className={`jojo-hint ${hint ? "jojo-hint-show" : ""}`} aria-live="polite">
+            {hint ?? ""}
+          </p>
+
+          <button type="button" className="jojo-btn jojo-btn-back" onClick={backToMenu}>
+            ◂ Voltar ao Menu
+          </button>
+        </section>
+      ) : phase === "intro" ? (
+        <section className="jojo-fade-in relative z-10 flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-12 text-center">
+          <p className="jojo-eyebrow">◆ Parte 1 — Phantom Blood ◆</p>
+          <h2 className="jojo-intro-title">Jonathan Joestar</h2>
+          <div className="jojo-intro-card jojo-rise">
+            <p>
+              Inglaterra, 1880. O jovem <strong>Jonathan Joestar</strong>, herdeiro da nobre família
+              Joestar, vê sua vida virar de cabeça para baixo com a chegada do ambicioso{" "}
+              <strong>Dio Brando</strong>, adotado por seu pai.
+            </p>
+            <p>
+              Quando uma misteriosa <strong>Máscara de Pedra</strong> revela um poder sombrio e Dio
+              abandona sua humanidade, Jonathan precisa dominar a energia vital <strong>Hamon</strong>{" "}
+              para enfrentar o mal que ameaça tudo o que ama.
+            </p>
+            <p className="jojo-intro-quote">「 O Destino dos Joestar começa aqui. 」</p>
+          </div>
+          <div className="flex flex-col items-center gap-3 sm:flex-row">
+            <button type="button" className="jojo-btn jojo-btn-primary" onClick={startNewGame}>
+              Começar a Aventura
+            </button>
+            <button type="button" className="jojo-btn jojo-btn-back" onClick={openParts}>
+              ◂ Voltar às Partes
+            </button>
+          </div>
+        </section>
       ) : (
         <section
           className={`relative z-10 flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-12 ${
