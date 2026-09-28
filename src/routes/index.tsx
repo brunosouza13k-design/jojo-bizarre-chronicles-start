@@ -291,11 +291,7 @@ function MainMenu() {
             <button type="button" className="jojo-btn jojo-btn-primary" onClick={startNewGame}>
               Novo Jogo
             </button>
-            <button
-              type="button"
-              className="jojo-btn"
-              onClick={() => showHint("As Partes ainda dormem... em breve, um novo mistério.")}
-            >
+            <button type="button" className="jojo-btn" onClick={openParts}>
               Selecionar Parte
             </button>
             <button
