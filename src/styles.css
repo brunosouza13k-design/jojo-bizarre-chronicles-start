@@ -585,3 +585,205 @@
   color: oklch(0.62 0.19 300 / 0.35);
   animation: jojo-breathe 2.4s ease-in-out infinite;
 }
+
+/* --- Tela: Selecionar Parte --- */
+
+.jojo-parts-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 6vw, 2.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: linear-gradient(180deg, var(--gold-bright) 10%, var(--gold) 50%, var(--gold-deep) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 oklch(0.1 0.02 292)) drop-shadow(0 8px 14px oklch(0 0 0 / 0.6));
+}
+
+.jojo-parts-sub {
+  margin-top: 0.6rem;
+  font-family: var(--font-menu);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--menacing);
+  text-shadow: 0 0 10px oklch(0.62 0.19 300 / 0.4);
+}
+
+.jojo-part {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 1rem;
+  border: 2px solid var(--gold);
+  background: linear-gradient(160deg, oklch(0.24 0.08 289 / 0.92), oklch(0.13 0.045 292 / 0.96));
+  padding: 1.1rem 1.2rem;
+  box-shadow:
+    inset 0 1px 0 oklch(0.93 0.16 98 / 0.14),
+    0 8px 22px oklch(0 0 0 / 0.5);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.jojo-part:hover,
+.jojo-part:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--gold-bright);
+  outline: none;
+  box-shadow:
+    inset 0 1px 0 oklch(0.93 0.16 98 / 0.2),
+    0 12px 28px oklch(0 0 0 / 0.55),
+    0 0 24px oklch(0.79 0.13 85 / 0.35);
+}
+
+.jojo-part:active {
+  transform: scale(0.97);
+  filter: brightness(1.4);
+}
+
+.jojo-part-num {
+  font-family: var(--font-menu);
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--menacing);
+}
+
+.jojo-part-name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.05rem, 4vw, 1.35rem);
+  letter-spacing: 0.04em;
+  color: var(--gold-bright);
+  text-shadow:
+    0 2px 0 oklch(0.08 0.02 292),
+    0 0 14px oklch(0.79 0.13 85 / 0.35);
+}
+
+.jojo-part-hero {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-menu);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: oklch(0.85 0.05 90);
+}
+
+.jojo-part-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.jojo-part-cta {
+  margin-top: 0.4rem;
+  font-family: var(--font-menu);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* --- Parte bloqueada: cinza + cadeado dourado --- */
+
+.jojo-part-locked {
+  border-color: oklch(0.4 0.02 292);
+  background: linear-gradient(160deg, oklch(0.2 0.02 292 / 0.9), oklch(0.12 0.015 292 / 0.95));
+  filter: grayscale(0.7) brightness(0.75);
+}
+
+.jojo-part-locked .jojo-part-name {
+  color: oklch(0.62 0.02 292);
+  text-shadow: 0 2px 0 oklch(0.08 0.02 292);
+}
+
+.jojo-part-locked .jojo-part-hero {
+  color: oklch(0.55 0.02 292);
+}
+
+.jojo-part-locked:hover,
+.jojo-part-locked:focus-visible {
+  border-color: oklch(0.5 0.04 292);
+  filter: grayscale(0.55) brightness(0.85);
+  box-shadow:
+    0 10px 24px oklch(0 0 0 / 0.5),
+    0 0 16px oklch(0.62 0.19 300 / 0.25);
+}
+
+.jojo-part-lock {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.9rem;
+  font-size: 1.25rem;
+  filter: sepia(1) saturate(3) hue-rotate(5deg) drop-shadow(0 0 8px oklch(0.79 0.13 85 / 0.6));
+}
+
+.jojo-part-sealed {
+  margin-top: 0.4rem;
+  font-family: var(--font-menu);
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.jojo-btn-back {
+  padding: 0.7rem 1.2rem;
+  font-size: 0.8rem;
+}
+
+/* --- Introdução da história (Parte 1) --- */
+
+.jojo-intro-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: linear-gradient(180deg, var(--gold-bright) 10%, var(--gold) 50%, var(--gold-deep) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 3px 0 oklch(0.1 0.02 292)) drop-shadow(0 10px 16px oklch(0 0 0 / 0.65));
+}
+
+.jojo-intro-card {
+  max-width: 34rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  border-radius: 1rem;
+  border: 2px solid var(--gold-deep);
+  background: linear-gradient(160deg, oklch(0.2 0.06 289 / 0.92), oklch(0.12 0.04 292 / 0.96));
+  padding: 1.4rem 1.6rem;
+  font-family: var(--font-menu);
+  font-size: clamp(0.9rem, 3.4vw, 1rem);
+  line-height: 1.65;
+  color: oklch(0.88 0.04 90);
+  text-align: left;
+  box-shadow:
+    inset 0 1px 0 oklch(0.93 0.16 98 / 0.12),
+    0 10px 28px oklch(0 0 0 / 0.55);
+}
+
+.jojo-intro-card strong {
+  color: var(--gold-bright);
+}
+
+.jojo-intro-quote {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--menacing);
+  text-shadow: 0 0 12px oklch(0.62 0.19 300 / 0.5);
+}
