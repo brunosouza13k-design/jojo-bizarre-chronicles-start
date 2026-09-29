@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep Part 1 character movement, NPC conversations, and portrait overlays together in the existing canvas map; the other parts have no playable maps yet.
