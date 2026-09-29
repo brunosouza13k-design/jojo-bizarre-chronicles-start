@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import dioPortrait from "@/assets/dio-portrait.png";
 
 /* ================== MAPA ================== */
 const T = 16;
@@ -97,6 +98,20 @@ const THINGS: Thing[] = [
       "Jonathan aperta o diário com força. Ele precisa impedir Dio a qualquer custo!",
     ],
   },
+];
+
+const DIO: Thing = {
+  id: "dio",
+  name: "Dio Brando",
+  rect: r(2.7, 9.3, 0.75, 1.15),
+  lines: ["Oque foi Jonathan? Perdeu algo aqui? Saia logo!"],
+};
+const DIO_ROUTE = [
+  { x: 46, y: 184 },
+  { x: 52, y: 190 },
+  { x: 52, y: 232 },
+  { x: 82, y: 232 },
+  { x: 82, y: 259 },
 ];
 
 const WALLS: Rect[] = [
@@ -250,20 +265,41 @@ function drawJonathan(c: CanvasRenderingContext2D, x: number, y: number, dir: nu
   px(c, "#1d2433", x + 3, y + 13 + Math.max(0, legA), 3, 4 - Math.max(0, legA));
   px(c, "#1d2433", x + 6, y + 13 + Math.max(0, -legA), 3, 4 - Math.max(0, -legA));
   px(c, "#2b3a5c", x + 1, y + 7 + bob, 10, 7); // casaco azul
-  px(c, "#f0ead8", x + 5, y + 7 + bob, 2, 5); // camisa
+  if (dir !== 1) px(c, "#f0ead8", dir === 2 ? x + 7 : dir === 3 ? x + 3 : x + 5, y + 7 + bob, 2, 5);
   px(c, "#e0b48a", x + 2, y + 1 + bob, 8, 7); // rosto
-  px(c, "#1a2a4a", x + 1, y - 1 + bob, 10, 3); // cabelo
   if (dir === 0) {
+    px(c, "#1a2a4a", x + 1, y - 1 + bob, 10, 3);
     px(c, "#1a2a4a", x + 1, y + 1 + bob, 2, 3);
     px(c, "#1a2a4a", x + 9, y + 1 + bob, 2, 3);
     px(c, "#111", x + 4, y + 4 + bob, 1, 2);
     px(c, "#111", x + 7, y + 4 + bob, 1, 2);
   } else if (dir === 1) {
-    px(c, "#1a2a4a", x + 1, y + 1 + bob, 10, 6);
+    px(c, "#1a2a4a", x + 1, y - 1 + bob, 10, 9);
+    px(c, "#304269", x + 2, y + 8 + bob, 8, 3);
   } else {
-    const side = dir === 2 ? 1 : 0;
-    px(c, "#1a2a4a", side ? x + 6 : x + 1, y + 1 + bob, 5, 5);
-    px(c, "#111", side ? x + 3 : x + 8, y + 4 + bob, 1, 2);
+    const right = dir === 2;
+    px(c, "#1a2a4a", x + 1, y - 1 + bob, 10, 3);
+    px(c, "#1a2a4a", right ? x + 1 : x + 7, y + 1 + bob, 4, 6);
+    px(c, "#111", right ? x + 8 : x + 3, y + 4 + bob, 1, 2);
+    px(c, "#e0b48a", right ? x + 10 : x + 1, y + 5 + bob, 2, 2); // nariz no sentido do olhar
+  }
+}
+
+function drawDio(c: CanvasRenderingContext2D, x: number, y: number, dir: number, step: number) {
+  const bob = step ? Math.round(Math.sin(step)) : 0;
+  px(c, "#160b13", x + 1, y + 16, 11, 2);
+  px(c, "#28182f", x + 3, y + 13, 3, 4);
+  px(c, "#28182f", x + 8, y + 13, 3, 4);
+  px(c, "#4f245d", x + 1, y + 7 + bob, 12, 7);
+  px(c, "#b98b36", x + 5, y + 8 + bob, 4, 4);
+  px(c, "#ecc49a", x + 3, y + 2 + bob, 8, 6);
+  px(c, "#d8a438", x + 2, y - 1 + bob, 9, 4);
+  px(c, "#f6d46b", x + 7, y + bob, 4, 3);
+  if (dir === 0) {
+    px(c, "#251521", x + 5, y + 5 + bob, 1, 1);
+    px(c, "#251521", x + 9, y + 5 + bob, 1, 1);
+  } else {
+    px(c, "#d8a438", x + 2, y + 2 + bob, 5, 5);
   }
 }
 
@@ -351,6 +387,7 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
   const input = useRef({ x: 0, y: 0 });
   const keys = useRef<{ [k: string]: boolean | undefined }>({});
   const player = useRef({ x: 5 * T + 2, y: 14 * T, dir: 1, step: 0 });
+  const dio = useRef({ x: DIO.rect.x, y: DIO.rect.y, dir: 0, step: 0, route: -1, gone: false });
   const nearRef = useRef<Thing | null>(null);
   const dialogRef = useRef(false);
   const [near, setNear] = useState<Thing | null>(null);
@@ -358,6 +395,7 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
   const [found, setFound] = useState(false);
   const [solved, setSolved] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [portraitVisible, setPortraitVisible] = useState(false);
   const [knob, setKnob] = useState({ x: 0, y: 0 });
   const baseRef = useRef<HTMLDivElement>(null);
 
@@ -371,8 +409,9 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
 
   // loop
   useEffect(() => {
-    const cv = canvasRef.current!;
-    const c = cv.getContext("2d")!;
+    const cv = canvasRef.current;
+    const c = cv?.getContext("2d");
+    if (!c) return;
     c.imageSmoothingEnabled = false;
     let raf = 0;
     let last = performance.now();
@@ -394,16 +433,36 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
         const vx = (ix / mag) * sp * dt;
         const vy = (iy / mag) * sp * dt;
         const box = (x: number, y: number): Rect => ({ x: x + 1, y: y + 12, w: 10, h: 6 });
-        if (!SOLIDS.some((s) => hit(box(p.x + vx, p.y), s))) p.x += vx;
-        if (!SOLIDS.some((s) => hit(box(p.x, p.y + vy), s))) p.y += vy;
+        const blocks = (b: Rect) => SOLIDS.some((s) => hit(b, s)) || (!dio.current.gone && dio.current.route < 0 && hit(b, { x: dio.current.x, y: dio.current.y, w: 12, h: 18 }));
+        if (!blocks(box(p.x + vx, p.y))) p.x += vx;
+        if (!blocks(box(p.x, p.y + vy))) p.y += vy;
         p.dir = Math.abs(ix) > Math.abs(iy) ? (ix > 0 ? 2 : 3) : iy > 0 ? 0 : 1;
         p.step += dt * 14;
       } else p.step = 0;
 
       // proximidade
+      const npc = dio.current;
+      if (npc.route >= 0 && !npc.gone) {
+        const target = DIO_ROUTE[npc.route];
+        if (target) {
+          const dx = target.x - npc.x;
+          const dy = target.y - npc.y;
+          const distance = Math.hypot(dx, dy);
+          const move = Math.min(distance, 40 * dt);
+          if (distance > 0) {
+            npc.x += (dx / distance) * move;
+            npc.y += (dy / distance) * move;
+            npc.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 2 : 3) : dy > 0 ? 0 : 1;
+            npc.step += dt * 12;
+          }
+          if (distance <= move + 0.1) npc.route++;
+        } else npc.gone = true;
+      }
+
       const zone: Rect = { x: p.x - 6, y: p.y + 4, w: 24, h: 22 };
       let best: Thing | null = null;
-      for (const th of THINGS) if (hit(zone, th.rect)) { best = th; break; }
+      if (!npc.gone && npc.route < 0 && hit(zone, { x: npc.x, y: npc.y, w: 12, h: 18 })) best = DIO;
+      if (!best) for (const th of THINGS) if (hit(zone, th.rect)) { best = th; break; }
       if (best !== nearRef.current) {
         nearRef.current = best;
         setNear(best);
@@ -411,11 +470,12 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
 
       drawRoom(c, now / 1000);
       if (best) {
-        const b = best.rect;
+        const b = best.id === "dio" ? { x: npc.x, y: npc.y, w: 12, h: 18 } : best.rect;
         c.strokeStyle = `rgba(255,215,90,${0.5 + Math.sin(now / 150) * 0.4})`;
         c.lineWidth = 1;
         c.strokeRect(b.x - 1.5, b.y - 1.5, b.w + 3, b.h + 3);
       }
+      if (!npc.gone) drawDio(c, npc.x, npc.y, npc.dir, npc.step);
       drawJonathan(c, p.x, p.y, p.dir, p.step);
       // vinheta
       const g = c.createRadialGradient(p.x + 6, p.y + 8, 30, p.x + 6, p.y + 8, 190);
@@ -447,6 +507,10 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
       if (dialog.page < dialog.thing.lines.length - 1) setDialog({ ...dialog, page: dialog.page + 1 });
       else {
         if (dialog.thing.diary) setSolved(true);
+        if (dialog.thing.id === "dio") {
+          setPortraitVisible(false);
+          dio.current.route = 0;
+        }
         setDialog(null);
       }
       return;
@@ -454,6 +518,7 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
     if (!nearRef.current) return;
     blip();
     if (nearRef.current.diary) setFound(true);
+    if (nearRef.current.id === "dio") setPortraitVisible(true);
     setDialog({ thing: nearRef.current, page: 0 });
   }, [dialog, solved]);
   const interactRef = useRef(interact);
@@ -470,7 +535,8 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
 
   // joystick
   const onStick = (e: React.PointerEvent) => {
-    const b = baseRef.current!.getBoundingClientRect();
+    const b = baseRef.current?.getBoundingClientRect();
+    if (!b) return;
     const R = b.width / 2;
     let dx = e.clientX - (b.left + R);
     let dy = e.clientY - (b.top + R);
@@ -501,8 +567,9 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
 
       <div className="pb-stage">
         <canvas ref={canvasRef} width={W} height={H} className="pb-canvas" />
+        <img src={dioPortrait} alt="Retrato de Dio Brando" width={768} height={1024} className={`pb-dio-portrait ${portraitVisible ? "pb-dio-portrait-visible" : ""}`} aria-hidden={!portraitVisible} />
         {dialog && (
-          <button className="pb-dialog" onClick={interact}>
+          <button className={`pb-dialog ${dialog.thing.id === "dio" ? "pb-dialog-dio" : ""}`} onClick={interact}>
             <span className="pb-dialog-name">{dialog.thing.name}</span>
             <span className="pb-dialog-text">{dialog.thing.lines[dialog.page]}</span>
             <span className="pb-dialog-next">▼</span>
@@ -534,7 +601,7 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
           onClick={interact}
           disabled={(!near && !dialog) || solved}
         >
-          {dialog ? "AVANÇAR" : "INTERAGIR"}
+          {dialog ? "AVANÇAR" : near?.id === "dio" ? "CONVERSAR" : "INTERAGIR"}
           {near && !dialog && <small>{near.name}</small>}
         </button>
       </div>

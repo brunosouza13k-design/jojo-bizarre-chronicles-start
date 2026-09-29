@@ -798,6 +798,10 @@
 .pb-stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; justify-content: center; align-items: center; padding: 0 .5rem; }
 .pb-canvas { height: 100%; max-width: 100%; aspect-ratio: 176 / 272; object-fit: contain; image-rendering: pixelated; border: 3px solid var(--gold-deep); border-radius: 6px; box-shadow: 0 0 30px color-mix(in oklab, var(--aura) 50%, transparent); }
 .pb-dialog { position: absolute; left: 50%; bottom: .75rem; transform: translateX(-50%); width: min(94%, 26rem); text-align: left; padding: .8rem 1rem 1.2rem; background: color-mix(in oklab, var(--void) 92%, transparent); border: 3px double var(--gold); border-radius: 8px; color: var(--foreground); font-family: "Cinzel", serif; font-size: .9rem; line-height: 1.45; display: flex; flex-direction: column; gap: .35rem; }
+.pb-dialog-dio { padding-left: clamp(6.2rem, 28%, 8rem); min-height: 7.5rem; }
+.pb-dio-portrait { position: absolute; z-index: 2; pointer-events: none; left: max(3%, calc(50% - 13rem)); bottom: .75rem; height: clamp(7rem, 24vh, 11rem); width: clamp(6rem, 27%, 8rem); object-fit: contain; object-position: bottom left; opacity: 0; transform: translateY(10px); transition: opacity .38s ease, transform .38s ease; }
+.pb-dio-portrait-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .pb-dio-portrait { transition: none; } }
 .pb-dialog-name { color: var(--gold-bright); font-weight: 700; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
 .pb-dialog-next { position: absolute; right: .7rem; bottom: .3rem; color: var(--gold); animation: pb-bounce .7s infinite alternate; font-size: .7rem; }
 @keyframes pb-bounce { to { transform: translateY(3px); } }
