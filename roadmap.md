@@ -1,0 +1,4 @@
+- [ ] Orientar Jonathan corretamente nas quatro direções.
+- [ ] Colocar Dio no salão, permitir conversa e animar sua saída pela porta.
+- [ ] Exibir retrato PNG transparente de Dio durante sua fala e sumir suavemente ao terminar.
+- [ ] Confirmar o resultado no jogo; a Parte 3 ainda não possui mapa ou biblioteca jogável.
