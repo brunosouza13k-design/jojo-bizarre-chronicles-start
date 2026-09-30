@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import dioPortrait from "@/assets/dio-portrait.png";
+import jonathanSheet from "@/assets/jonathan-sheet.png.asset.json";
 
 /* ================== MAPA ================== */
 const T = 16;
@@ -256,33 +257,13 @@ function drawRoom(c: CanvasRenderingContext2D, t: number) {
   }
 }
 
-function drawJonathan(c: CanvasRenderingContext2D, x: number, y: number, dir: number, step: number) {
-  // x,y = topo-esquerda de sprite 12x18
-  const bob = step ? Math.round(Math.sin(step) * 1) : 0;
+function drawJonathan(c: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, dir: number, step: number) {
+  // O desenho enviado tem quatro poses: frente, direita, esquerda e costas.
+  const frame = [0, 3, 1, 2][dir] ?? 0;
+  const bob = step ? Math.round(Math.sin(step) * 0.5) : 0;
   c.fillStyle = "rgba(0,0,0,0.35)";
-  c.fillRect(x + 1, y + 16, 10, 3);
-  const legA = step ? Math.round(Math.sin(step) * 2) : 0;
-  px(c, "#1d2433", x + 3, y + 13 + Math.max(0, legA), 3, 4 - Math.max(0, legA));
-  px(c, "#1d2433", x + 6, y + 13 + Math.max(0, -legA), 3, 4 - Math.max(0, -legA));
-  px(c, "#2b3a5c", x + 1, y + 7 + bob, 10, 7); // casaco azul
-  if (dir !== 1) px(c, "#f0ead8", dir === 2 ? x + 7 : dir === 3 ? x + 3 : x + 5, y + 7 + bob, 2, 5);
-  px(c, "#e0b48a", x + 2, y + 1 + bob, 8, 7); // rosto
-  if (dir === 0) {
-    px(c, "#1a2a4a", x + 1, y - 1 + bob, 10, 3);
-    px(c, "#1a2a4a", x + 1, y + 1 + bob, 2, 3);
-    px(c, "#1a2a4a", x + 9, y + 1 + bob, 2, 3);
-    px(c, "#111", x + 4, y + 4 + bob, 1, 2);
-    px(c, "#111", x + 7, y + 4 + bob, 1, 2);
-  } else if (dir === 1) {
-    px(c, "#1a2a4a", x + 1, y - 1 + bob, 10, 9);
-    px(c, "#304269", x + 2, y + 8 + bob, 8, 3);
-  } else {
-    const right = dir === 2;
-    px(c, "#1a2a4a", x + 1, y - 1 + bob, 10, 3);
-    px(c, "#1a2a4a", right ? x + 1 : x + 7, y + 1 + bob, 4, 6);
-    px(c, "#111", right ? x + 8 : x + 3, y + 4 + bob, 1, 2);
-    px(c, "#e0b48a", right ? x + 10 : x + 1, y + 5 + bob, 2, 2); // nariz no sentido do olhar
-  }
+  c.fillRect(Math.round(x), Math.round(y + 16), 12, 3);
+  c.drawImage(image, frame * 24, 0, 24, 40, Math.round(x - 3), Math.round(y - 21 + bob), 18, 39);
 }
 
 function drawDio(c: CanvasRenderingContext2D, x: number, y: number, dir: number, step: number) {
@@ -413,6 +394,8 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
     const c = cv?.getContext("2d");
     if (!c) return;
     c.imageSmoothingEnabled = false;
+    const jonathanImage = new Image();
+    jonathanImage.src = jonathanSheet.url;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -476,7 +459,7 @@ export function PhantomBloodMap({ onExit }: { onExit: () => void }) {
         c.strokeRect(b.x - 1.5, b.y - 1.5, b.w + 3, b.h + 3);
       }
       if (!npc.gone) drawDio(c, npc.x, npc.y, npc.dir, npc.step);
-      drawJonathan(c, p.x, p.y, p.dir, p.step);
+      if (jonathanImage.complete && jonathanImage.naturalWidth > 0) drawJonathan(c, jonathanImage, p.x, p.y, p.dir, p.step);
       // vinheta
       const g = c.createRadialGradient(p.x + 6, p.y + 8, 30, p.x + 6, p.y + 8, 190);
       g.addColorStop(0, "rgba(0,0,0,0)");
