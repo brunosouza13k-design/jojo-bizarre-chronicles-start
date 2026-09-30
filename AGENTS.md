@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep Part 1 character movement, NPC conversations, and portrait overlays together in the existing canvas map; the other parts have no playable maps yet.
+- Render Jonathan from the four-frame transparent sprite sheet derived from the supplied reference; this preserves each facing direction without changing map collisions.
