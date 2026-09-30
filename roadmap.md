@@ -1,6 +1,6 @@
-- [ ] Orientar Jonathan corretamente nas quatro direções.
-- [ ] Colocar Dio no salão, permitir conversa e animar sua saída pela porta.
-- [ ] Exibir retrato PNG transparente de Dio durante sua fala e sumir suavemente ao terminar.
-- [ ] Confirmar o resultado no jogo; a Parte 3 ainda não possui mapa ou biblioteca jogável.
-- [ ] Substituir Jonathan pela aparência enviada, com quatro direções no salão da Parte 1.
-- [ ] Melhorar a legibilidade da fala e conferir a conversa/saída de Dio no celular.
+- [x] Orientar Jonathan corretamente nas quatro direções.
+- [x] Colocar Dio no salão, permitir conversa e animar sua saída pela porta.
+- [x] Exibir retrato PNG transparente de Dio durante sua fala e sumir suavemente ao terminar.
+- [x] Confirmar o resultado no celular; a Parte 3 ainda não possui mapa ou biblioteca jogável.
+- [x] Substituir Jonathan pela aparência enviada, com quatro direções no salão da Parte 1.
+- [x] Melhorar a legibilidade da fala e conferir a conversa/saída de Dio no celular.
