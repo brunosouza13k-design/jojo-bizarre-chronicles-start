@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import dioPortrait from "@/assets/dio-portrait.png";
-import jonathanSheet from "@/assets/jonathan-sheet.png.asset.json";
+import jonathanSheet from "@/assets/jonathan-fixed.png.asset.json";
 
 /* ================== MAPA ================== */
 const T = 16;
