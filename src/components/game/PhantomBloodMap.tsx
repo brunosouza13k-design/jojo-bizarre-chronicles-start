@@ -263,7 +263,9 @@ function drawJonathan(c: CanvasRenderingContext2D, image: HTMLImageElement, x: n
   const bob = step ? Math.round(Math.sin(step) * 0.5) : 0;
   c.fillStyle = "rgba(0,0,0,0.35)";
   c.fillRect(Math.round(x), Math.round(y + 16), 12, 3);
-  c.drawImage(image, frame * 24, 0, 24, 40, Math.round(x - 3), Math.round(y - 21 + bob), 18, 39);
+  // Mantém a proporção original do sprite para não deformar a cabeça;
+  // os pés continuam alinhados com a posição e colisão do personagem.
+  c.drawImage(image, frame * 24, 0, 24, 40, Math.round(x - 1), Math.round(y - 11 + bob), 14, 30);
 }
 
 function drawDio(c: CanvasRenderingContext2D, x: number, y: number, dir: number, step: number) {
