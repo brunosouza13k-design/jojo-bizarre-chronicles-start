@@ -1211,7 +1211,7 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
         ) : (
           <button
             className={`pb-interact ${actionOn ? "pb-interact-on" : ""}`}
-            disabled={stage === "esidisi" || (!actionOn && stage !== "pillar")}
+            disabled={stage === "esidisi" || !actionOn}
             onPointerDown={(e) => { e.preventDefault(); pressAction(); }}
             onPointerUp={releaseAction}
             onPointerLeave={releaseAction}
