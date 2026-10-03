@@ -288,7 +288,9 @@ function pickSafe(n: number) {
   const all = Array.from({ length: GRID.cols * GRID.rows }, (_, i) => i);
   for (let i = all.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [all[i], all[j]] = [all[j], all[i]];
+    const tmp = all[i]!;
+    all[i] = all[j]!;
+    all[j] = tmp;
   }
   return all.slice(0, n);
 }
@@ -428,7 +430,7 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
   const nearNodeIdx = (g: Game) => {
     const active = g.nodes.findIndex((n) => !n);
     if (active < 0 || g.t < g.nodeAt) return -1;
-    const n = NODES[active];
+    const n = NODES[active]!;
     return Math.hypot(g.px - n.x, g.py - n.y) < 20 ? active : -1;
   };
 
@@ -631,11 +633,10 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
               const hook = HOOKS.find((h) => Math.abs(h - b.x) < 8);
               if (hook !== undefined) {
                 b.bounced = true;
-                const tx = 2 * hook - (b.x + (b.x - hook));
-                const dx = (2 * hook - b.x) - hook + (tx - tx);
-                const len = Math.hypot(dx, 60);
+                const dx = Math.abs(g.wx - hook) < 64 ? g.wx - hook : (hook - b.x) * 10 + 70 * Math.sign(hook - b.x || 1);
+                const len = Math.hypot(dx, 46);
                 b.vx = (dx / len) * 230;
-                b.vy = (60 / len) * 230;
+                b.vy = (46 / len) * 230;
                 b.y = 30;
                 blip(1000, 0.06);
               } else b.y = -99;
@@ -1040,10 +1041,10 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
 
   const answerBluff = (i: number) => {
     if (!bluff) return;
-    const q = BLUFFS[bluff.idx];
+    const q = BLUFFS[bluff.idx]!;
     const g = G.current;
     if (i === q.correct) {
-      setBluff({ ...bluff, reply: `Kars: "${q.options[i].replace(/"/g, "")}" ...!? C-como você sabia?!` });
+      setBluff({ ...bluff, reply: `Kars: "${q.options[i]!.replace(/"/g, "")}" ...!? C-como você sabia?!` });
       blip(1100, 0.2, "triangle");
     } else {
       setBluff({ ...bluff, reply: "Kars: \"Hah! Errou, JoJo!\" (Kars contra-ataca)" });
@@ -1150,9 +1151,9 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
             <span className="pb-dialog-name">{bluff.reply ? "Resultado" : "Kars"}</span>
             {!bluff.reply ? (
               <>
-                <span className="pb-dialog-text">{BLUFFS[bluff.idx].kars}</span>
+                <span className="pb-dialog-text">{BLUFFS[bluff.idx]!.kars}</span>
                 <span className="bt-bluff-ask">Joseph: "Sua próxima linha será..."</span>
-                {BLUFFS[bluff.idx].options.map((o, i) => (
+                {BLUFFS[bluff.idx]!.options.map((o, i) => (
                   <button key={i} className="bt-option" onClick={() => answerBluff(i)}>▸ {o}</button>
                 ))}
               </>
@@ -1210,7 +1211,7 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
         ) : (
           <button
             className={`pb-interact ${actionOn ? "pb-interact-on" : ""}`}
-            disabled={stage === "esidisi" || (!actionOn && stage !== "pillar")}
+            disabled={stage === "esidisi" || !actionOn}
             onPointerDown={(e) => { e.preventDefault(); pressAction(); }}
             onPointerUp={releaseAction}
             onPointerLeave={releaseAction}

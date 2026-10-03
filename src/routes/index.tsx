@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PhantomBloodMap } from "@/components/game/PhantomBloodMap";
+import { BattleTendency } from "@/components/game/BattleTendency";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,7 +24,7 @@ export const Route = createFileRoute("/")({
   component: MainMenu,
 });
 
-type Phase = "menu" | "fading" | "loading" | "parts" | "intro" | "map";
+type Phase = "menu" | "fading" | "loading" | "parts" | "intro" | "map" | "bt";
 
 type JojoPart = {
   id: number;
@@ -149,6 +150,7 @@ function MainMenu() {
   const lockedHint = (id: number) =>
     showHint(`A PARTE ${id} está selada. Resolva o mistério da Parte ${id - 1} para libertá-la.`);
 
+  if (phase === "bt") return <BattleTendency onExit={() => setPhase("parts")} />;
   if (phase === "map") return <PhantomBloodMap onExit={() => setPhase("menu")} />;
 
   return (
@@ -205,7 +207,7 @@ function MainMenu() {
           <div className="jojo-rise grid w-full max-w-3xl grid-cols-1 gap-4 sm:grid-cols-2" style={{ animationDelay: "0.15s" }}>
             {PARTS.map((part) =>
               part.id <= unlocked ? (
-                <button key={part.id} type="button" className="jojo-part" onClick={part.id === 1 ? openIntro : () => showHint(`A PARTE ${part.id} foi libertada! Sua história chega em breve.`)}>
+                <button key={part.id} type="button" className="jojo-part" onClick={part.id === 1 ? openIntro : part.id === 2 ? () => { playClick(); setPhase("bt"); } : () => showHint(`A PARTE ${part.id} foi libertada! Sua história chega em breve.`)}>
                   <span className="jojo-part-num">Parte {part.id}</span>
                   <span className="jojo-part-name">{part.title}</span>
                   <span className="jojo-part-hero">

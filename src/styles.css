@@ -818,3 +818,25 @@
 .pb-interact small { font-size: .6rem; color: var(--foreground); font-weight: 400; }
 .pb-interact-on { color: var(--void); background: radial-gradient(circle, var(--gold-bright), var(--gold)); animation: pb-blink .8s ease-in-out infinite; }
 @keyframes pb-blink { 50% { box-shadow: 0 0 28px var(--gold-bright); transform: scale(1.06); } }
+
+/* Parte 2 — Battle Tendency */
+.bt-hp { color: var(--gold-bright); letter-spacing: .1em; font-size: .8rem; }
+.bt-spacer { visibility: hidden; }
+.bt-prologue { gap: 1.4rem; }
+.bt-prologue-text { font-family: "Cinzel", serif; color: var(--dialog-ink); font-size: 1rem; line-height: 1.6; max-width: 22rem; min-height: 10rem; }
+.bt-caret { color: var(--gold); animation: pb-blink .8s infinite; }
+.bt-card-title { font-size: 1.4rem; }
+.bt-bluff { gap: .45rem; }
+.bt-bluff-ask { color: var(--gold); font-style: italic; font-size: .8rem; }
+.bt-option { text-align: left; padding: .45rem .6rem; border: 1.5px solid var(--gold-deep); border-radius: 6px; color: var(--dialog-ink); font-size: .8rem; background: color-mix(in oklab, var(--aura) 25%, transparent); }
+.bt-option:hover, .bt-option:focus-visible { border-color: var(--gold-bright); color: var(--gold-bright); }
+.bt-final { font-size: .7rem; text-align: center; padding: .5rem; }
+.bt-lock { position: relative; width: 5rem; height: 5rem; font-size: 3.4rem; }
+.bt-lock-half { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; animation: bt-shake .6s ease-in-out 2; }
+.bt-lock-l { clip-path: inset(0 50% 0 0); animation: bt-shake .6s 2, bt-split-l .7s 1.2s forwards; }
+.bt-lock-r { clip-path: inset(0 0 0 50%); animation: bt-shake .6s 2, bt-split-r .7s 1.2s forwards; }
+.bt-lock-burst { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "Cinzel Decorative", serif; font-weight: 900; font-size: 1.6rem; color: var(--gold-bright); text-shadow: 2px 2px 0 #000; opacity: 0; animation: bt-burst .8s 1.3s forwards; }
+@keyframes bt-shake { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
+@keyframes bt-split-l { to { transform: translate(-2.2rem, 1.5rem) rotate(-40deg); opacity: 0; } }
+@keyframes bt-split-r { to { transform: translate(2.2rem, 1.5rem) rotate(40deg); opacity: 0; } }
+@keyframes bt-burst { 0% { opacity: 0; transform: scale(.3); } 60% { opacity: 1; transform: scale(1.3); } 100% { opacity: 1; transform: scale(1); } }
