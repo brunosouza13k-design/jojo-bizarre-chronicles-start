@@ -288,7 +288,9 @@ function pickSafe(n: number) {
   const all = Array.from({ length: GRID.cols * GRID.rows }, (_, i) => i);
   for (let i = all.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [all[i], all[j]] = [all[j], all[i]];
+    const tmp = all[i]!;
+    all[i] = all[j]!;
+    all[j] = tmp;
   }
   return all.slice(0, n);
 }
@@ -428,7 +430,7 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
   const nearNodeIdx = (g: Game) => {
     const active = g.nodes.findIndex((n) => !n);
     if (active < 0 || g.t < g.nodeAt) return -1;
-    const n = NODES[active];
+    const n = NODES[active]!;
     return Math.hypot(g.px - n.x, g.py - n.y) < 20 ? active : -1;
   };
 
@@ -1039,10 +1041,10 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
 
   const answerBluff = (i: number) => {
     if (!bluff) return;
-    const q = BLUFFS[bluff.idx];
+    const q = BLUFFS[bluff.idx]!;
     const g = G.current;
     if (i === q.correct) {
-      setBluff({ ...bluff, reply: `Kars: "${q.options[i].replace(/"/g, "")}" ...!? C-como você sabia?!` });
+      setBluff({ ...bluff, reply: `Kars: "${q.options[i]!.replace(/"/g, "")}" ...!? C-como você sabia?!` });
       blip(1100, 0.2, "triangle");
     } else {
       setBluff({ ...bluff, reply: "Kars: \"Hah! Errou, JoJo!\" (Kars contra-ataca)" });
@@ -1149,9 +1151,9 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
             <span className="pb-dialog-name">{bluff.reply ? "Resultado" : "Kars"}</span>
             {!bluff.reply ? (
               <>
-                <span className="pb-dialog-text">{BLUFFS[bluff.idx].kars}</span>
+                <span className="pb-dialog-text">{BLUFFS[bluff.idx]!.kars}</span>
                 <span className="bt-bluff-ask">Joseph: "Sua próxima linha será..."</span>
-                {BLUFFS[bluff.idx].options.map((o, i) => (
+                {BLUFFS[bluff.idx]!.options.map((o, i) => (
                   <button key={i} className="bt-option" onClick={() => answerBluff(i)}>▸ {o}</button>
                 ))}
               </>
