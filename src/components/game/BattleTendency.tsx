@@ -631,11 +631,10 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
               const hook = HOOKS.find((h) => Math.abs(h - b.x) < 8);
               if (hook !== undefined) {
                 b.bounced = true;
-                const tx = 2 * hook - (b.x + (b.x - hook));
-                const dx = (2 * hook - b.x) - hook + (tx - tx);
-                const len = Math.hypot(dx, 60);
+                const dx = Math.abs(g.wx - hook) < 64 ? g.wx - hook : (hook - b.x) * 10 + 70 * Math.sign(hook - b.x || 1);
+                const len = Math.hypot(dx, 46);
                 b.vx = (dx / len) * 230;
-                b.vy = (60 / len) * 230;
+                b.vy = (46 / len) * 230;
                 b.y = 30;
                 blip(1000, 0.06);
               } else b.y = -99;

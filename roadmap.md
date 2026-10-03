@@ -4,3 +4,4 @@
 - [x] Confirmar o resultado no celular; a Parte 3 ainda não possui mapa ou biblioteca jogável.
 - [x] Substituir Jonathan pela aparência enviada, com quatro direções no salão da Parte 1.
 - [x] Melhorar a legibilidade da fala e conferir a conversa/saída de Dio no celular.
+- [x] Parte 2 completa: prólogo, Pilar de Óleo, Esidisi, Whamuu, Kars, Vulcão, cinemática e desbloqueio da Parte 3.
