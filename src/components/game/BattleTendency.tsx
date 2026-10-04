@@ -538,15 +538,15 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
         drawJoseph(c, g.px, g.py, g.t, true);
         c.setTransform(1, 0, 0, 1, 0, 0);
         // HUD foco de Hamon
-        const m = (Math.sin(g.t * 2.4) + 1) / 2;
+        const m = (Math.sin(g.t * 1.5) + 1) / 2;
         const sec = Math.floor((PILLAR - g.py) / SECTION);
-        const zoneW = 0.24 - sec * 0.03;
+        const zoneW = 0.34 - sec * 0.02;
         px(c, "#000", 18, 8, 140, 12);
         px(c, "#2a1a40", 20, 10, 136, 8);
         px(c, "#e8c060", 20 + 136 * (0.5 - zoneW / 2), 10, 136 * zoneW, 8);
         px(c, "#fff", 20 + 136 * m - 1, 7, 3, 14);
         px(c, "#000", 18, 22, 140, 5);
-        px(c, "#60e0ff", 20, 23, 136 * clamp(g.grip / 2.4, 0, 1), 3);
+        px(c, "#60e0ff", 20, 23, 136 * clamp(g.grip / 3.6, 0, 1), 3);
         c.fillStyle = "#f4e6b0";
         c.font = "7px monospace";
         c.fillText("FOCO DE HAMON", 20, 36);
