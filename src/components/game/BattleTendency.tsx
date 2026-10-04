@@ -481,7 +481,7 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
           g.base = PILLAR - sec * SECTION;
           if (g.holding && g.grip > 0) {
             g.grip -= dt;
-            if (ny < 0) g.py += ny * 48 * dt;
+            g.py -= (ny < 0 ? 40 - ny * 20 : 40) * dt;
             if (g.grip <= 0) { g.holding = false; flash(g, "FÔLEGO ESGOTADO! RESPIRE E REPITA!"); }
           } else if (g.py < g.base) {
             g.py = Math.min(g.base, g.py + 30 * dt);
@@ -1212,9 +1212,8 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
           <button
             className={`pb-interact ${actionOn ? "pb-interact-on" : ""}`}
             disabled={stage === "esidisi" || !actionOn}
-            onPointerDown={(e) => { e.preventDefault(); pressAction(); }}
+            onPointerDown={(e) => { e.preventDefault(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); pressAction(); }}
             onPointerUp={releaseAction}
-            onPointerLeave={releaseAction}
             onPointerCancel={releaseAction}
           >
             {stage === "esidisi" ? "ESQUIVE!" : actionLabel}
