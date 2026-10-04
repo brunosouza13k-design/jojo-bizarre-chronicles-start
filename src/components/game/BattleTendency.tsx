@@ -385,11 +385,11 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
     const s = stageRef.current;
     if (paused.current) return;
     if (s === "pillar") {
-      const m = (Math.sin(g.t * 2.4) + 1) / 2;
-      const zoneW = 0.24 - Math.floor((PILLAR - g.py) / SECTION) * 0.03;
+      const m = (Math.sin(g.t * 1.5) + 1) / 2;
+      const zoneW = 0.34 - Math.floor((PILLAR - g.py) / SECTION) * 0.02;
       if (Math.abs(m - 0.5) < zoneW / 2) {
         g.holding = true;
-        g.grip = 2.4;
+        g.grip = 3.6;
         blip(880, 0.1, "triangle");
         flash(g, "CONCENTRAÇÃO PERFEITA!");
       } else {
@@ -481,20 +481,20 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
           g.base = PILLAR - sec * SECTION;
           if (g.holding && g.grip > 0) {
             g.grip -= dt;
-            g.py -= (ny < 0 ? 40 - ny * 20 : 40) * dt;
+            g.py -= (ny < 0 ? 58 - ny * 27 : 58) * dt;
             if (g.grip <= 0) { g.holding = false; flash(g, "FÔLEGO ESGOTADO! RESPIRE E REPITA!"); }
           } else if (g.py < g.base) {
-            g.py = Math.min(g.base, g.py + 30 * dt);
+            g.py = Math.min(g.base, g.py + 70 * dt);
           }
           g.jetT -= dt;
           const camY0 = clamp(g.py - 190, 0, PILLAR - H + 40);
           if (g.jetT <= 0) {
-            g.jets.push({ x: rnd(54, 122), y: camY0 - 10, vy: rnd(120, 170) + sec * 25 });
-            g.jetT = rnd(0.55, 1.0) - sec * 0.08;
+            g.jets.push({ x: rnd(54, 122), y: camY0 - 10, vy: rnd(85, 115) + sec * 10 });
+            g.jetT = rnd(0.95, 1.5) - sec * 0.05;
           }
           for (const j of g.jets) j.y += j.vy * dt;
           g.jets = g.jets.filter((j) => j.y < camY0 + H + 20);
-          if (g.jets.some((j) => Math.abs(j.x - g.px) < 7 && j.y > g.py - 24 && j.y < g.py)) {
+          if (g.jets.some((j) => Math.abs(j.x - g.px) < 5 && j.y > g.py - 24 && j.y < g.py)) {
             slip(g, "ATINGIDO PELO ÓLEO!");
           }
           if (g.py <= 24) {
@@ -538,15 +538,15 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
         drawJoseph(c, g.px, g.py, g.t, true);
         c.setTransform(1, 0, 0, 1, 0, 0);
         // HUD foco de Hamon
-        const m = (Math.sin(g.t * 2.4) + 1) / 2;
+        const m = (Math.sin(g.t * 1.5) + 1) / 2;
         const sec = Math.floor((PILLAR - g.py) / SECTION);
-        const zoneW = 0.24 - sec * 0.03;
+        const zoneW = 0.34 - sec * 0.02;
         px(c, "#000", 18, 8, 140, 12);
         px(c, "#2a1a40", 20, 10, 136, 8);
         px(c, "#e8c060", 20 + 136 * (0.5 - zoneW / 2), 10, 136 * zoneW, 8);
         px(c, "#fff", 20 + 136 * m - 1, 7, 3, 14);
         px(c, "#000", 18, 22, 140, 5);
-        px(c, "#60e0ff", 20, 23, 136 * clamp(g.grip / 2.4, 0, 1), 3);
+        px(c, "#60e0ff", 20, 23, 136 * clamp(g.grip / 3.6, 0, 1), 3);
         c.fillStyle = "#f4e6b0";
         c.font = "7px monospace";
         c.fillText("FOCO DE HAMON", 20, 36);
