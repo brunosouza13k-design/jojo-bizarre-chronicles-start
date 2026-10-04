@@ -481,20 +481,20 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
           g.base = PILLAR - sec * SECTION;
           if (g.holding && g.grip > 0) {
             g.grip -= dt;
-            g.py -= (ny < 0 ? 40 - ny * 20 : 40) * dt;
+            g.py -= (ny < 0 ? 58 - ny * 27 : 58) * dt;
             if (g.grip <= 0) { g.holding = false; flash(g, "FÔLEGO ESGOTADO! RESPIRE E REPITA!"); }
           } else if (g.py < g.base) {
-            g.py = Math.min(g.base, g.py + 30 * dt);
+            g.py = Math.min(g.base, g.py + 70 * dt);
           }
           g.jetT -= dt;
           const camY0 = clamp(g.py - 190, 0, PILLAR - H + 40);
           if (g.jetT <= 0) {
-            g.jets.push({ x: rnd(54, 122), y: camY0 - 10, vy: rnd(120, 170) + sec * 25 });
-            g.jetT = rnd(0.55, 1.0) - sec * 0.08;
+            g.jets.push({ x: rnd(54, 122), y: camY0 - 10, vy: rnd(85, 115) + sec * 10 });
+            g.jetT = rnd(0.95, 1.5) - sec * 0.05;
           }
           for (const j of g.jets) j.y += j.vy * dt;
           g.jets = g.jets.filter((j) => j.y < camY0 + H + 20);
-          if (g.jets.some((j) => Math.abs(j.x - g.px) < 7 && j.y > g.py - 24 && j.y < g.py)) {
+          if (g.jets.some((j) => Math.abs(j.x - g.px) < 5 && j.y > g.py - 24 && j.y < g.py)) {
             slip(g, "ATINGIDO PELO ÓLEO!");
           }
           if (g.py <= 24) {
