@@ -385,11 +385,11 @@ export function BattleTendency({ onExit }: { onExit: () => void }) {
     const s = stageRef.current;
     if (paused.current) return;
     if (s === "pillar") {
-      const m = (Math.sin(g.t * 2.4) + 1) / 2;
-      const zoneW = 0.24 - Math.floor((PILLAR - g.py) / SECTION) * 0.03;
+      const m = (Math.sin(g.t * 1.5) + 1) / 2;
+      const zoneW = 0.34 - Math.floor((PILLAR - g.py) / SECTION) * 0.02;
       if (Math.abs(m - 0.5) < zoneW / 2) {
         g.holding = true;
-        g.grip = 2.4;
+        g.grip = 3.6;
         blip(880, 0.1, "triangle");
         flash(g, "CONCENTRAÇÃO PERFEITA!");
       } else {
